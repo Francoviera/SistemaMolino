@@ -1,0 +1,118 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.preloader {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #eee;
+    border-top: 5px solid #666;
+    border-radius: 50%;
+    animation-name: girar;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    
+  }
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .container{
+    /*¿Altura del liquido*/
+    --liquid: 0%;
+    /*Altura de la onda
+    * Siendo 0.5 (cero) el minimo
+    * y 0.99 (cero) el maximo*/
+    --h-wave: 0.9;
+    /*¿Color del borde?*/
+    --cl-bd: rgb(0, 0, 0);
+    /*¿Color del liquido?*/
+    --cl-lq: #7d85ee;
+    /*¿Grosor del borde*/
+    --bd: 0.4vw;
+    /*¿Ancho del contenedor*/
+    /* --w-cnt: 100vw; */
+    
+  }
+  
+  .container {
+    /* width: var(--w-cnt); */
+    width: 100%;
+    margin: auto;
+    border: solid var(--bd) var(--cl-bd);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .container img{
+    position: relative;
+    z-index: 2; /*para que la imagen este por encima*/
+    display: block;
+    width: 100%;
+    height: auto;
+    /*La imagen no es transparente, 
+    entonces aunque este adelante de la onda
+    igual no se verá, por eso uso el modo
+    de fusión "multiply", que hace que los colores
+    entre más claros sean, más los transparenta*/
+    mix-blend-mode: multiply;
+    /*LO mejor es que la imagen tenga fondo 
+    transparente y quites esta propiedad*/
+  }
+  
+  .row{
+    display: flex;
+    font-size: 0;
+    letter-spacing: 0;
+    position: relative;
+    z-index: 2;
+  }
+  
+  
+  .container::before,
+  .container::after{
+    content: '';
+    display: block;
+    position: absolute;
+    background-color: var(--cl-lq);
+    height: var(--liquid);
+    bottom: 0;
+    left: 0;
+    z-index: 1; /*para que la onda este por debajo*/
+  }
+  
+  .container::before{
+    z-index: 2;
+    width: 100%;
+    transform-origin: 50% 100%;
+    animation: wave-shrink 3s linear infinite;
+  }
+  
+  .container::after{
+    z-index: 1;
+    width: 200%;
+    border-radius: 50%;
+    animation: wave-sway 5s linear infinite;
+  }
+  
+  @keyframes wave-shrink{
+    50%{ transform: scaleY(var(--h-wave));}
+  }
+  
+  @keyframes wave-sway{
+    0%{ transform: translateX(-100%);}
+    100%{ transform: translateX(100%);}
+  }
